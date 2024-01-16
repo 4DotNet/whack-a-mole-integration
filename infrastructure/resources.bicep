@@ -73,14 +73,14 @@ resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2023-0
     publicNetworkAccess: 'Enabled'
   }
   resource webPubSubConfigurationValue 'keyValues@2023-03-01' = {
-    name: 'AzureServices__WebPubSubEndpoint'
+    name: 'AzureServices:WebPubSubEndpoint'
     properties: {
       contentType: 'text/plain'
       value: webPubSub.name
     }
   }
   resource webPubSubHubConfigurationValue 'keyValues@2023-03-01' = {
-    name: 'AzureServices__WebPubSubHub'
+    name: 'AzureServices:WebPubSubHub'
     properties: {
       contentType: 'text/plain'
       value: 'whackamole'
