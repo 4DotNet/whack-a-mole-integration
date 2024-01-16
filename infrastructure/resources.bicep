@@ -76,7 +76,7 @@ resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2023-0
     name: 'AzureServices:WebPubSubEndpoint'
     properties: {
       contentType: 'text/plain'
-      value: webPubSub.name
+      value: webPubSub.properties.hostName
     }
   }
   resource webPubSubHubConfigurationValue 'keyValues@2023-03-01' = {
