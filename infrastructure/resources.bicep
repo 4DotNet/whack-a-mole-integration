@@ -104,7 +104,7 @@ resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-05-01'
   }
 }
 
-resource appConfigurationDataReaderRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' = {
+resource appConfigurationDataReaderRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
   name: '	516239f1-63e1-4d78-a4de-a74fb236a071'
 }
 module appConfigurationDataReaderRoleAssignment 'roleAssignment.bicep' = {
