@@ -32,7 +32,7 @@ resource webPubSub 'Microsoft.SignalRService/webPubSub@2023-08-01-preview' = {
   resource hub 'hubs@2023-08-01-preview' = {
     name: 'whackamole'
     properties: {
-      anonymousConnectPolicy: 'Enabled'
+      anonymousConnectPolicy: 'allow'
     }
   }
 
