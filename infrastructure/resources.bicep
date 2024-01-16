@@ -29,6 +29,13 @@ resource webPubSub 'Microsoft.SignalRService/webPubSub@2023-08-01-preview' = {
   }
   kind: 'WebPubSub'
   properties: {}
+  resource hub 'hubs@2023-08-01-preview' = {
+    name: 'whackamole'
+    properties: {
+      anonymousConnectPolicy: 'Enabled'
+    }
+  }
+
 }
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
@@ -60,10 +67,24 @@ resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2023-0
   name: '${defaultResourceName}-appcfg'
   location: location
   sku: {
-    name: 'Free'
+    name: 'Standard'
   }
   properties: {
     publicNetworkAccess: 'Enabled'
+  }
+  resource webPubSubConfigurationValue 'keyValues@2023-03-01' = {
+    name: 'AzureServices__WebPubSubEndpoint'
+    properties: {
+      contentType: 'text/plain'
+      value: webPubSub.name
+    }
+  }
+  resource webPubSubHubConfigurationValue 'keyValues@2023-03-01' = {
+    name: 'AzureServices__WebPubSubHub'
+    properties: {
+      contentType: 'text/plain'
+      value: 'whackamole'
+    }
   }
   resource appInsightsConnectionStringConfiguration 'keyValues@2023-03-01' = {
     name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
