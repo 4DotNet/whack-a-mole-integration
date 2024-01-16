@@ -88,6 +88,22 @@ resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2023-0
   }
 }
 
+resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-05-01' = {
+  name: '${defaultResourceName}-env'
+  location: location
+  properties: {
+    daprAIInstrumentationKey: applicationInsights.properties.InstrumentationKey
+    appLogsConfiguration: {
+      destination: 'log-analytics'
+      logAnalyticsConfiguration: {
+        customerId: logAnalytics.properties.customerId
+        sharedKey: logAnalytics.listKeys().primarySharedKey
+      }
+    }
+    zoneRedundant: false
+  }
+}
+
 resource appConfigurationDataReaderRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' = {
   name: '	516239f1-63e1-4d78-a4de-a74fb236a071'
 }
