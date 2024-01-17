@@ -9,6 +9,41 @@ var tables = [
   'scores'
 ]
 
+var azureAdSettings = [
+  {
+    name: 'ClientId'
+    value: '52547135-6beb-44d4-8d4f-0fc5a3366807'
+  }
+  {
+    name: 'Instance'
+    value: 'https://login.microsoftonline.com/'
+  }
+  {
+    name: 'Domain'
+    value: '4DotNet.nl'
+  }
+  {
+    name: 'Authority'
+    value: 'https://login.microsoftonline.com/5992a427-2b8e-43f2-a467-7fdc724be4bd'
+  }
+  {
+    name: 'TenantId'
+    value: '5992a427-2b8e-43f2-a467-7fdc724be4bd'
+  }
+  {
+    name: 'ValidateAuthority'
+    value: true
+  }
+  {
+    name: 'ApiScope'
+    value: 'api://roulette/management'
+  }
+  {
+    name: 'Audience'
+    value: 'api://roulette'
+  }
+]
+
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: '${defaultResourceName}-log'
   location: location
@@ -72,6 +107,13 @@ resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2023-0
   properties: {
     publicNetworkAccess: 'Enabled'
   }
+  resource adConfigurationValue 'keyValues@2023-03-01' = [for adSetting in azureAdSettings: {
+    name: 'AzureAD:${adSetting.name}'
+    properties: {
+      contentType: 'text/plain'
+      value: adSetting.value
+    }
+  }]
   resource webPubSubConfigurationValue 'keyValues@2023-03-01' = {
     name: 'AzureServices:WebPubSubEndpoint'
     properties: {
