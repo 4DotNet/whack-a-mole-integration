@@ -1,5 +1,10 @@
 # Whack-A-Mole Game
 
+[![Users Service](https://github.com/4DotNet/whack-a-mole-users/actions/workflows/build-container.yml/badge.svg)](https://github.com/4DotNet/whack-a-mole-users/actions/workflows/build-container.yml)
+[![Games Service](https://github.com/4DotNet/whack-a-mole-games/actions/workflows/build-container.yml/badge.svg)](https://github.com/4DotNet/whack-a-mole-games/actions/workflows/build-container.yml)
+[![Scores Service](https://github.com/4DotNet/whack-a-mole-scores/actions/workflows/build-container.yml/badge.svg)](https://github.com/4DotNet/whack-a-mole-scores/actions/workflows/build-container.yml)
+[![Realtime Service](https://github.com/4DotNet/whack-a-mole-realtime-service/actions/workflows/build-container.yml/badge.svg)](https://github.com/4DotNet/whack-a-mole-realtime-service/actions/workflows/build-container.yml)
+
 This is the Whack-A-Mole game, a completely over-engineered game to demonstrate microservices, containers, Azure Container Apps, and real-time communication. This project is managed at GitHub [GitHub Project Page](https://github.com/users/nikneem/projects/3), which is a private project that you need to have granted access for.
 
 ## Project structure

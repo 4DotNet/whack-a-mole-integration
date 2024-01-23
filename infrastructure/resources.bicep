@@ -3,12 +3,6 @@ param appBuildersGroup string
 param location string = resourceGroup().location
 param defaultResourceName string
 
-var tables = [
-  'users'
-  'games'
-  'scores'
-]
-
 var azureAdSettings = [
   {
     name: 'ClientId'
