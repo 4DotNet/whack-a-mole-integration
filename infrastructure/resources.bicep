@@ -159,6 +159,37 @@ resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-05-01'
     }
     zoneRedundant: false
   }
+  resource stateStoreComponent 'daprComponents' = {
+    name: 'statestore'
+    properties: {
+      componentType: 'state.redis'
+      version: 'v1'
+      secrets: [
+        {
+          name: 'redispassword'
+          value: redisCache.listKeys().primaryKey
+        }
+      ]
+      metadata: [
+        {
+          name: 'redisHost'
+          value: redisCache.properties.hostName
+        }
+        {
+          name: 'redisDB'
+          value: '0'
+        }
+        {
+          name: 'redisPassword'
+          secretRef: 'redispassword'
+        }
+        {
+          name: 'enableTLS'
+          value: 'true'
+        }
+      ]
+    }
+  }
 }
 
 resource appConfigurationDataReaderRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
