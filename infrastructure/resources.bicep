@@ -187,6 +187,10 @@ resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-05-01'
           name: 'enableTLS'
           value: 'true'
         }
+        {
+          name: 'keyPrefix'
+          value: 'none'
+        }
       ]
     }
   }
