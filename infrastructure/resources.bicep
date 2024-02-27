@@ -173,7 +173,7 @@ resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-05-01'
       metadata: [
         {
           name: 'redisHost'
-          value: '${redisCache.properties.hostName}:${redisCache.properties.port}'
+          value: '${redisCache.properties.hostName}:${redisCache.properties.sslPort}'
         }
         {
           name: 'redisDB'
