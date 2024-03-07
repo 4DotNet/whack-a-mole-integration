@@ -53,8 +53,8 @@ resource webPubSub 'Microsoft.SignalRService/webPubSub@2023-08-01-preview' = {
   name: '${defaultResourceName}-wps'
   location: location
   sku: {
-    name: 'Free_F1'
-    tier: 'Free'
+    name: 'Standard_S1'
+    tier: 'Standard'
   }
   kind: 'WebPubSub'
   properties: {}
