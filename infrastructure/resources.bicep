@@ -64,7 +64,6 @@ resource webPubSub 'Microsoft.SignalRService/webPubSub@2023-08-01-preview' = {
       anonymousConnectPolicy: 'allow'
     }
   }
-
 }
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
@@ -101,13 +100,15 @@ resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2023-0
   properties: {
     publicNetworkAccess: 'Enabled'
   }
-  resource adConfigurationValue 'keyValues@2023-03-01' = [for adSetting in azureAdSettings: {
-    name: 'AzureAD:${adSetting.name}'
-    properties: {
-      contentType: 'text/plain'
-      value: adSetting.value
+  resource adConfigurationValue 'keyValues@2023-03-01' = [
+    for adSetting in azureAdSettings: {
+      name: 'AzureAD:${adSetting.name}'
+      properties: {
+        contentType: 'text/plain'
+        value: adSetting.value
+      }
     }
-  }]
+  ]
   resource webPubSubConfigurationValue 'keyValues@2023-03-01' = {
     name: 'AzureServices:WebPubSubEndpoint'
     properties: {
@@ -143,6 +144,31 @@ resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2023-0
       value: redisCache.listKeys().primaryKey
     }
   }
+  resource vouchersFeatureFlagKeyValue 'keyValues@2023-03-01' = {
+    name: '.appconfig.featureflag~2F${vouchersFeatureFlag.id}'
+    properties: {
+      contentType: 'application/vnd.microsoft.appconfig.ff+json;charset=utf-8'
+      value: string(vouchersFeatureFlag)
+    }
+  }
+  resource maxPlayersFeatureFlagKeyValue 'keyValues@2023-03-01' = {
+    name: '.appconfig.featureflag~2F${maxPlayersFeatureFlag.id}'
+    properties: {
+      contentType: 'application/vnd.microsoft.appconfig.ff+json;charset=utf-8'
+      value: string(maxPlayersFeatureFlag)
+    }
+  }
+}
+
+var vouchersFeatureFlag = {
+  id: 'enable-vouchers'
+  description: 'Set to true, to demand players to scan vouchers for entering a game.'
+  enabled: true
+}
+var maxPlayersFeatureFlag = {
+  id: 'enable-max-players'
+  description: 'Enable the maximum of 25 players per game'
+  enabled: true
 }
 
 resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-05-01' = {
