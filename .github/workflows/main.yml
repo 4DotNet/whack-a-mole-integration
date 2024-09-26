@@ -35,6 +35,7 @@ jobs:
       - name: Build & Push
         working-directory: infrastructure
         run: |
+          bicep build-params prod.main.bicepparam
           bicep build-params test.main.bicepparam
           az bicep build --file main.bicep
       - name: Publish Artifact
@@ -43,7 +44,7 @@ jobs:
           name: bicep-templates
           path: infrastructure/*.json
 
-  infrastructure-incremental:
+  test-deployment:
     needs: [publish-bicep, versionize]
     runs-on: ubuntu-latest
     steps:
@@ -65,3 +66,24 @@ jobs:
         uses: Azure/cli@v1
         with:
           inlineScript: az deployment sub create --name wam-integration-northeur  --location northeurope --template-file ./infrastructure/main.json --parameters ./infrastructure/test.main.json
+
+  production-deployment:
+    needs: [publish-bicep, versionize]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bicep-templates
+          path: ./infrastructure
+      - name: Az CLI login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.WAM_PRD_CLIENT_ID }}
+          tenant-id: ${{ secrets.WAM_PRD_TENANT_ID }}
+          subscription-id: ${{ secrets.WAM_PRD_SUBSCRIPTION_ID }}
+      - name: Deploy Infrastructure
+        id: arm
+        uses: Azure/cli@v1
+        with:
+          inlineScript: az deployment sub create --name wam-integration-northeur  --location northeurope --template-file ./infrastructure/main.json --parameters ./infrastructure/prod.main.json
