@@ -68,7 +68,8 @@ jobs:
           inlineScript: az deployment sub create --name wam-integration-northeur  --location northeurope --template-file ./infrastructure/main.json --parameters ./infrastructure/test.main.json
 
   production-deployment:
-    needs: [publish-bicep, versionize]
+    if: github.ref == 'refs/heads/main'
+    needs: [test-deployment]
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
