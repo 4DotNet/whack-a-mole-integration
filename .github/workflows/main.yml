@@ -74,7 +74,7 @@ jobs:
           inlineScript: az deployment sub create --name test-wam-integration-northeur  --location northeurope --template-file ./infrastructure/main.json --parameters ./infrastructure/test.main.json
 
   production-deployment:
-    if: (github.event_name == 'pull_request' && github.event.action != 'closed')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: [publish-bicep, versionize]
     runs-on: ubuntu-latest
     steps:
