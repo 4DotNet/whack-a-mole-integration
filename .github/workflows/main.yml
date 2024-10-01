@@ -2,7 +2,12 @@ name: Whack-A-Mole Intagration
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
 
 permissions:
   id-token: write
@@ -45,6 +50,7 @@ jobs:
           path: infrastructure/*.json
 
   test-deployment:
+    if: (github.event_name == 'pull_request' && github.event.action != 'closed')
     needs: [publish-bicep, versionize]
     runs-on: ubuntu-latest
     steps:
@@ -68,8 +74,8 @@ jobs:
           inlineScript: az deployment sub create --name test-wam-integration-northeur  --location northeurope --template-file ./infrastructure/main.json --parameters ./infrastructure/test.main.json
 
   production-deployment:
-    if: github.ref == 'refs/heads/main'
-    needs: [test-deployment]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [publish-bicep, versionize]
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
